@@ -2,6 +2,7 @@
 import { getProducts } from "@/lib/features/productSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useEffect } from "react";
+import "../../../styles/Home.css";
 
 const Home = () => {
   const { apiData, loading } = useAppSelector((state) => state.products);
@@ -11,8 +12,18 @@ const Home = () => {
     dispatch(getProducts());
   }, []);
   return (
-    <div>
-      <h1>Real Landing Page</h1>
+    <div className="home-container">
+      {/* <Carousel arr={posters} /> */}
+      <div className="home-brands-container">
+        <p className="home-heading">MEDAL WORTHY BRANDS</p>
+        <div className="home-brandsCarousel">
+          {/* <BrandsCarousel arr={brands} /> */}
+        </div>
+        <p className="home-heading">GRAND GLOBAL BRANDS</p>
+        <div className="home-brandsCarousel">
+          {/* <BrandsCarousel arr={glowalBrands} /> */}
+        </div>
+      </div>
     </div>
   );
 };

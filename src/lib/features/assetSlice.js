@@ -11,20 +11,20 @@ const assetSlice = createSlice({
   name: "assets",
   initialState: {
     assetData: [],
-    loading: false,
+    assetLoading: false,
   },
   reducers: {},
 
   extraReducers: (builder) => {
     builder.addCase(getAsset.pending, (state) => {
-      state.loading = true;
+      state.assetLoading = true;
     });
     builder.addCase(getAsset.fulfilled, (state, { payload }) => {
-      state.loading = false;
+      state.assetLoading = false;
       state.assetData = payload;
     });
     builder.addCase(getAsset.rejected, (state, error) => {
-      state.loading = true;
+      state.assetLoading = true;
       console.log(error);
     });
   },

@@ -1,28 +1,17 @@
 const mongoose = require("mongoose");
 
-const imageSchema = new mongoose.Schema({
-  url: {
-    type: String,
-    required: true,
-  },
-});
-
 const assetSchema = new mongoose.Schema({
   posters: {
-    type: [imageSchema],
-    default: [],
+    type: [String],
   },
   brands: {
-    type: [imageSchema],
-    default: [],
+    type: [String],
   },
   glowalbrands: {
-    type: [imageSchema],
-    default: [],
+    type: [String],
   },
   category: {
-    type: [imageSchema],
-    default: [],
+    type: [String],
   },
 });
 

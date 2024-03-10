@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import "../styles/Navbar.css";
+import "../app/styles/Navbar.css";
 import logo from "../../public/asset/logo.png";
 
 import { FaHeart, FaSearch, FaShoppingCart, FaUserAlt } from "react-icons/fa";

@@ -7,8 +7,15 @@ const BrandsCarousel = ({ arr }) => {
 
   return (
     <div className="brandCarousel-container">
-      {arr.map((item, index) => (
-        <Image className="brands-images" src={item} alt="brands" key={index} />
+      {arr?.map((item, index) => (
+        <Image
+          className="brands-images"
+          src={item}
+          alt="brands"
+          key={index}
+          width={300}
+          height={400}
+        />
       ))}
     </div>
   );

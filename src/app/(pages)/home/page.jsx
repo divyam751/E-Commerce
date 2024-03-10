@@ -5,6 +5,7 @@ import { getProducts } from "@/lib/features/productSlice";
 import { getAsset } from "@/lib/features/assetSlice";
 import "../../styles/Home.css";
 import BrandsCarousel from "@/components/BrandsCarousel";
+import Carousel from "@/components/Carousel";
 const Home = () => {
   const dispatch = useAppDispatch();
   const { apiData, loading } = useAppSelector((state) => state.products);
@@ -25,7 +26,7 @@ const Home = () => {
   return (
     <main className="app">
       <div className="home-container">
-        {/* <Carousel arr={arr} /> */}
+        <Carousel arr={assetData.posters} />
         <div className="home-brands-container">
           <p className="home-heading">MEDAL WORTHY BRANDS</p>
           <div className="home-brandsCarousel">
@@ -33,7 +34,7 @@ const Home = () => {
           </div>
           <p className="home-heading">GRAND GLOBAL BRANDS</p>
           <div className="home-brandsCarousel">
-            {/* <BrandsCarousel arr={glowalBrands} /> */}
+            <BrandsCarousel arr={assetData.glowalbrands} />
           </div>
         </div>
       </div>

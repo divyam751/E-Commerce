@@ -3,13 +3,16 @@ import { getProducts } from "@/lib/features/productSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { useEffect } from "react";
 import "../../../styles/Home.css";
+import { getAsset } from "@/lib/features/assetSlice";
 
 const Home = () => {
   const { apiData, loading } = useAppSelector((state) => state.products);
-  console.log(apiData);
+  const { assetData } = useAppSelector((state) => state.assets);
+  console.log(assetData);
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(getProducts());
+    dispatch(getAsset());
   }, []);
   return (
     <div className="home-container">

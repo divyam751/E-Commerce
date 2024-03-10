@@ -159,6 +159,7 @@ hr {
 @media only screen and (max-width: 1024px) {
   .productDetails-productImages {
     width: 300px;
+    height: auto;
   }
   .productDetails-imageSection {
     max-width: 620px;

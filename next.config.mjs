@@ -1,9 +1,7 @@
-// next.config.mjs
-
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["github.com"],
+    domains: ["github.com", "assets.myntassets.com"], // Add "assets.myntassets.com" to the array
   },
 };
 

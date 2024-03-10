@@ -53,7 +53,7 @@ const Navbar = () => {
       }`}
     >
       <div className="navbar">
-        <Image src={logo} alt="logo" className="logo" />
+        <Image src={logo} alt="logo" priority className="logo" />
         <div className="navbar-linksBox">
           <span onClick={() => router.push("/home")} className="nav-links">
             Home

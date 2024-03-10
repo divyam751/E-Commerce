@@ -7,12 +7,15 @@ export const getProducts = createAsyncThunk("product/getProduct", async () => {
   return productData.data;
 });
 
+const initialSelectedProduct = JSON.parse(
+  localStorage.getItem("selectedProduct")
+);
 const productSlice = createSlice({
   name: "products",
   initialState: {
     apiData: [],
     filteredProducts: [],
-    selectedProduct: [],
+    selectedProduct: initialSelectedProduct,
     cart: [],
     wishlist: [],
     loading: false,
@@ -69,6 +72,7 @@ const productSlice = createSlice({
       }
     },
     productQuery: (state, { payload }) => {
+      localStorage.setItem("selectedProduct", JSON.stringify({ ...payload }));
       state.selectedProduct = { ...payload };
     },
 

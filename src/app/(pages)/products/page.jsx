@@ -8,7 +8,7 @@ import {
   setCustomFilter,
   sortByQuery,
 } from "@/lib/features/productSlice";
-import ProductCard from "@/components/ProductCard";
+import ProductCard from "@/app/components/ProductCard";
 
 const Product = () => {
   const dispatch = useAppDispatch();

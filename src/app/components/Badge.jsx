@@ -1,5 +1,5 @@
 import React from "react";
-import "../app/styles/Badge.css";
+import "../styles/Badge.css";
 const Badge = ({ title }) => {
   return (
     <div className="badge-container">

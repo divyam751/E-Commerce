@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import "../app/styles/Navbar.css";
-import logo from "../../public/asset/logo.png";
+import "../styles/Navbar.css";
+import logo from "../../../public/asset/logo.png";
 
 import { FaHeart, FaSearch, FaShoppingCart, FaUserAlt } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";

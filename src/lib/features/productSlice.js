@@ -7,9 +7,10 @@ export const getProducts = createAsyncThunk("product/getProduct", async () => {
   return productData.data;
 });
 
-const initialSelectedProduct = JSON.parse(
-  localStorage.getItem("selectedProduct")
-);
+const storedSelectedProduct = localStorage.getItem("selectedProduct");
+const initialSelectedProduct = storedSelectedProduct
+  ? JSON.parse(storedSelectedProduct)
+  : null;
 const productSlice = createSlice({
   name: "products",
   initialState: {

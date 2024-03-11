@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import "../app/styles/Carousel.css";
+import "../styles/Carousel.css";
 import Image from "next/image";
 
 const Carousel = ({ arr }) => {

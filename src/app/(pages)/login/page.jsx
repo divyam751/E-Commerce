@@ -1,15 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import "../../styles/Signup.css";
+import "../../styles/Login.css";
 import { IoIosEye, IoIosEyeOff } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { Bounce, ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
-const Signup = () => {
+import "react-toastify/dist/ReactToastify.css";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setUserDetails } from "@/lib/features/userSlice";
+
+const Login = () => {
   const [formData, setFormData] = useState({
-    name: "",
     email: "",
     password: "",
   });
@@ -19,7 +21,7 @@ const Signup = () => {
   };
 
   const successNotify = () =>
-    toast.success("😏 Account created successfully", {
+    toast.success("😏 Login successful", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -31,7 +33,7 @@ const Signup = () => {
       transition: Bounce,
     });
   const errorNotify = () =>
-    toast.error("🫢 Something went wrong", {
+    toast.error("🫢 Wrong credentials", {
       position: "top-right",
       autoClose: 3000,
       hideProgressBar: false,
@@ -42,19 +44,22 @@ const Signup = () => {
       theme: "colored",
       transition: Bounce,
     });
-
+  const dispatch = useAppDispatch();
+  const { userData } = useAppSelector((state) => state.users);
+  console.log("userData :", userData);
   const postFormData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/signup", {
+      const response = await fetch("http://localhost:3000/api/login", {
         method: "POST",
         body: JSON.stringify(formData),
       });
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Account created successfully");
+        console.log("Login successful");
         console.log(data);
         successNotify();
+        dispatch(setUserDetails(data));
       } else {
         console.error("Error:", response.statusText);
         errorNotify();
@@ -79,51 +84,43 @@ const Signup = () => {
   };
   const router = useRouter();
   return (
-    <div className="signup-container">
-      <div className="signup-parentBox">
-        <span className="signup-heading">Signup</span>
-        <form className="signup-form" onSubmit={handleSubmit}>
-          <label className="signup-inputLabel">Full Name</label>
-          <input
-            type="text"
-            name="name"
-            className="signup-input"
-            onChange={handleChange}
-            required
-          />
-          <label className="signup-inputLabel">Email</label>
+    <div className="login-container">
+      <div className="login-parentBox">
+        <span className="login-heading">Login</span>
+        <form className="login-form" onSubmit={handleSubmit}>
+          <label className="login-inputLabel">Email</label>
           <input
             type="email"
             name="email"
-            className="signup-input"
+            className="login-input"
             onChange={handleChange}
             required
           />
 
-          <label className="signup-inputLabel">Password</label>
-          <div className="signup-passwordBox">
+          <label className="login-inputLabel">Password</label>
+          <div className="login-passwordBox">
             <input
               type={show ? "text" : "password"}
               name="password"
-              className="signup-input"
+              className="login-input"
               onChange={handleChange}
               required
             />
             {show ? (
               <IoIosEyeOff
-                className="signup-password-eye"
+                className="login-password-eye"
                 onClick={handleShow}
               />
             ) : (
-              <IoIosEye className="signup-password-eye" onClick={handleShow} />
+              <IoIosEye className="login-password-eye" onClick={handleShow} />
             )}
           </div>
-          <button type="submit" className="signup-button">
-            Sign Up
+          <button type="submit" className="login-button">
+            Submit
           </button>
-          <span className="signup-bottomText">
+          <span className="login-bottomText">
             Already have an account?{" "}
-            <span onClick={() => router.push("/login")}>Login</span>
+            <span onClick={() => router.push("/signup")}>SignUp</span>
           </span>
         </form>
         <ToastContainer
@@ -144,4 +141,4 @@ const Signup = () => {
   );
 };
 
-export default Signup;
+export default Login;

@@ -28,7 +28,11 @@ export async function POST(req) {
     });
 
     return NextResponse.json(
-      { token: token, userId: existingUser._id, msg: "Login successful" },
+      {
+        token: token,
+        userId: existingUser._id,
+        userName: existingUser.name,
+      },
       { status: 200 }
     );
   } catch (error) {

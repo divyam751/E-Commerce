@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import "../app/styles/ProductCard.css";
+import "../styles/ProductCard.css";
 import Badge from "./Badge";
 import { useRouter } from "next/navigation";
 import { useAppDispatch } from "@/lib/hooks";

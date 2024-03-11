@@ -4,8 +4,9 @@ import { useEffect, useState } from "react";
 import { getProducts } from "@/lib/features/productSlice";
 import { getAsset } from "@/lib/features/assetSlice";
 import "../../styles/Home.css";
-import BrandsCarousel from "@/components/BrandsCarousel";
-import Carousel from "@/components/Carousel";
+import Carousel from "@/app/components/Carousel";
+import BrandsCarousel from "@/app/components/BrandsCarousel";
+
 const Home = () => {
   const dispatch = useAppDispatch();
   const { apiData, loading } = useAppSelector((state) => state.products);

@@ -1,5 +1,5 @@
 import React from "react";
-import "../app/styles/BrandsCarousel.css";
+import "../styles/BrandsCarousel.css";
 import Image from "next/image";
 
 const BrandsCarousel = ({ arr }) => {

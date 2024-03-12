@@ -3,7 +3,7 @@ import "../styles/BrandsCarousel.css";
 import Image from "next/image";
 
 const BrandsCarousel = ({ arr }) => {
-  console.log(arr);
+  // console.log(arr);
 
   return (
     <div className="brandCarousel-container">

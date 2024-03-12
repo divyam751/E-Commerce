@@ -22,8 +22,8 @@ const Home = () => {
   useEffect(() => {
     setTimeout(() => {}, [2000]);
   }, []);
-  console.log(typeof assetData.posters);
-  console.log(assetData.posters);
+  // console.log(typeof assetData.posters);
+  // console.log(assetData.posters);
   return (
     <main className="app">
       <div className="home-container">

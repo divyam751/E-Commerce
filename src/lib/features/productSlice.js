@@ -1,12 +1,14 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getProducts = createAsyncThunk("product/getProduct", async () => {
-  const response = await fetch("http://localhost:3000/api/products");
+  // const response = await fetch("http://localhost:3000/api/products");
+  const response = await fetch(`${REQUEST_URL}/products`);
   const productData = await response.json();
   // console.log("getProducts called");
   return productData.data;
 });
-
+const REQUEST_URL = process.env.REQUEST_URL;
+console.log(`${REQUEST_URL}/products`);
 const storedSelectedProduct =
   typeof window !== "undefined"
     ? sessionStorage.getItem("selectedProduct")
@@ -96,7 +98,7 @@ const productSlice = createSlice({
       }
     },
     updateCartQty: (state, { payload }) => {
-      console.log(payload);
+      // console.log(payload);
 
       const existingItem = state.cart.find(
         (item) => item.id === payload.payload.id

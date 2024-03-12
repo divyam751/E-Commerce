@@ -19,6 +19,7 @@ const Login = () => {
   const handleShow = () => {
     setShow((prev) => !prev);
   };
+  const REQUEST_URL = process.env.REQUEST_URL;
 
   const successNotify = () =>
     toast.success("😏 Login successful", {
@@ -49,7 +50,7 @@ const Login = () => {
   console.log("userData :", userData);
   const postFormData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/login", {
+      const response = await fetch(`${REQUEST_URL}/api/login`, {
         method: "POST",
         body: JSON.stringify(formData),
       });

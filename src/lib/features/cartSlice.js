@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 export const getCart = createAsyncThunk("product/getCart", async () => {
   const { userId, token } = sessionStorage.getItem("userData");
-  const response = await fetch(`http://localhost:3000/api/cart${userId}`, {
+  const response = await fetch(`${REQUEST_URL}/cart/${userId}`, {
     method: "GET",
     headers: {
       "Content-type": "application/json",
@@ -13,6 +13,7 @@ export const getCart = createAsyncThunk("product/getCart", async () => {
   // console.log("getProducts called");
   return productData.data;
 });
+const REQUEST_URL = process.env.REQUEST_URL;
 
 const cartSlice = createSlice({
   name: "products",

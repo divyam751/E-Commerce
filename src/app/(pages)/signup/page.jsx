@@ -45,7 +45,7 @@ const Signup = () => {
 
   const postFormData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/signup", {
+      const response = await fetch(`${REQUEST_URL}/api/signup`, {
         method: "POST",
         body: JSON.stringify(formData),
       });
@@ -64,7 +64,7 @@ const Signup = () => {
       errorNotify();
     }
   };
-
+  const REQUEST_URL = process.env.REQUEST_URL;
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formData);

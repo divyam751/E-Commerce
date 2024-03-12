@@ -8,6 +8,7 @@ export const getProducts = createAsyncThunk("product/getProduct", async () => {
   return productData.data;
 });
 const REQUEST_URL = process.env.REQUEST_URL;
+// const response = await fetch(`${REQUEST_URL}/products`);
 console.log(`${REQUEST_URL}/products`);
 const storedSelectedProduct =
   typeof window !== "undefined"

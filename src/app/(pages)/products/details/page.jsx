@@ -39,12 +39,12 @@ const ProductDetails = () => {
       dispatch(addToWishlist(item));
     }
   };
-
+  const REQUEST_URL = process.env.REQUEST_URL;
   const handleCart = async (item) => {
     // dispatch(addToCart(item));
     if (item) {
       try {
-        const response = await fetch(`http://localhost:3000/api/cart`, {
+        const response = await fetch(`${REQUEST_URL}/api/cart`, {
           method: "POST",
           headers: {
             "Content-type": "application/json",

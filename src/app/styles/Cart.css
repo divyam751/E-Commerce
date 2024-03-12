@@ -87,8 +87,9 @@
   gap: 15px;
   margin-bottom: 20px;
 }
-.cart-giftingSection > img {
-  width: 40px;
+.cart-giftingSection-ribbon {
+  /* width: 40px; */
+  /* height: auto; */
 }
 .cart-giftingText {
   margin: 5px;
@@ -136,9 +137,9 @@
   .cart-giftingSection {
     gap: 0px;
   }
-  .cart-giftingSection > img {
+  /* .cart-giftingSection > img {
     width: 25px;
-  }
+  } */
   .cart-productAmountSection {
     gap: 5px;
   }

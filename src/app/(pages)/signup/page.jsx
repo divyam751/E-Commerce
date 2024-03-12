@@ -45,7 +45,7 @@ const Signup = () => {
   const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
   const postFormData = async () => {
     try {
-      const response = await fetch(`${REQUEST_URL}/api/signup`, {
+      const response = await fetch(`${REQUEST_URL}/signup`, {
         method: "POST",
         body: JSON.stringify(formData),
       });

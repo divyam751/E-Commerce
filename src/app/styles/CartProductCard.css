@@ -8,6 +8,7 @@
 }
 .cartProductCard-productImg {
   height: 100%;
+  width: auto;
 }
 .cartProductCard-contentBox {
   display: flex;
@@ -75,10 +76,10 @@
     width: 300px;
     height: fit-content;
   }
-  .cartProductCard-productImg {
+  /* .cartProductCard-productImg {
     height: auto;
     width: 300px;
-  }
+  } */
   .cartProductCard-contentBox {
     margin-left: 20px;
     margin-bottom: 20px;

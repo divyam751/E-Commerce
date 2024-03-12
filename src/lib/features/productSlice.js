@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
-console.log("REQUEST_URL", REQUEST_URL);
+// console.log("REQUEST_URL", REQUEST_URL);
 // console.log(`${REQUEST_URL}/products`);
 
 export const getProducts = createAsyncThunk("product/getProduct", async () => {
@@ -13,19 +13,13 @@ export const getProducts = createAsyncThunk("product/getProduct", async () => {
 });
 
 // const response = await fetch(`${REQUEST_URL}/products`);
-const storedSelectedProduct =
-  typeof window !== "undefined"
-    ? sessionStorage.getItem("selectedProduct")
-    : null;
-const initialSelectedProduct = storedSelectedProduct
-  ? JSON.parse(storedSelectedProduct)
-  : null;
+
 const productSlice = createSlice({
   name: "products",
   initialState: {
     apiData: [],
     filteredProducts: [],
-    selectedProduct: initialSelectedProduct,
+    selectedProduct: [],
     cart: [],
     wishlist: [],
     loading: false,
@@ -82,47 +76,9 @@ const productSlice = createSlice({
       }
     },
     productQuery: (state, { payload }) => {
-      if (typeof window !== "undefined") {
-        sessionStorage.setItem(
-          "selectedProduct",
-          JSON.stringify({ ...payload })
-        );
-      }
+      sessionStorage.setItem("selectedProduct", JSON.stringify({ ...payload }));
+
       state.selectedProduct = { ...payload };
-    },
-
-    addToCart: (state, { payload }) => {
-      const existingItem = state.cart.find((item) => item.id === payload.id);
-
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        payload = { ...payload, quantity: 1 };
-        state.cart = [...state.cart, { ...payload }];
-      }
-    },
-    updateCartQty: (state, { payload }) => {
-      // console.log(payload);
-
-      const existingItem = state.cart.find(
-        (item) => item.id === payload.payload.id
-      );
-      if (payload.action === "ADD") {
-        existingItem.quantity += 1;
-      } else {
-        existingItem.quantity -= 1;
-      }
-    },
-    addToWishlist: (state, { payload }) => {
-      const existingIndex = state.wishlist.findIndex(
-        (item) => item.id === payload.id
-      );
-
-      if (existingIndex === -1) {
-        state.wishlist = [...state.wishlist, { ...payload }];
-      } else {
-        state.wishlist.splice(existingIndex, 1);
-      }
     },
   },
 
@@ -141,13 +97,6 @@ const productSlice = createSlice({
   },
 });
 
-export const {
-  searchQuery,
-  setCustomFilter,
-  sortByQuery,
-  productQuery,
-  addToCart,
-  addToWishlist,
-  updateCartQty,
-} = productSlice.actions;
+export const { searchQuery, setCustomFilter, sortByQuery, productQuery } =
+  productSlice.actions;
 export default productSlice.reducer;

@@ -11,18 +11,20 @@ import { TbTruckDelivery } from "react-icons/tb";
 import { GiPayMoney } from "react-icons/gi";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { addToCart, addToWishlist } from "@/lib/features/productSlice";
 import Image from "next/image";
+import { addToWishlist, getCart } from "@/lib/features/cartSlice";
+import { productQuery } from "@/lib/features/productSlice";
 
 const ProductDetails = () => {
   const [pincode, setPincode] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
   const [wish, setWish] = useState(false);
-  const { selectedProduct, wishlist, cart } = useAppSelector(
-    (state) => state.products
-  );
-  const { userId, token } = useAppSelector((state) => state.users.userData);
+  const { selectedProduct } = useAppSelector((state) => state.products);
+  const { wishlist } = useAppSelector((state) => state.carts);
+  const { userData } = useAppSelector((state) => state.users);
   // console.log("userId :", userId);
+  const { userId, token } = userData;
+
   const discount = Math.floor(
     ((selectedProduct?.mrp - selectedProduct?.price) / selectedProduct?.mrp) *
       100
@@ -40,11 +42,12 @@ const ProductDetails = () => {
     }
   };
   const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
+
   const handleCart = async (item) => {
     // dispatch(addToCart(item));
     if (item) {
       try {
-        const response = await fetch(`${REQUEST_URL}/api/cart`, {
+        const response = await fetch(`${REQUEST_URL}/cart`, {
           method: "POST",
           headers: {
             "Content-type": "application/json",
@@ -57,6 +60,7 @@ const ProductDetails = () => {
           const data = await response.json();
           console.log("Added to cart successful");
           console.log(data);
+          dispatch(getCart(userData));
           // successNotify();
           // dispatch(setUserDetails(data));
         } else {
@@ -69,8 +73,21 @@ const ProductDetails = () => {
       }
     }
   };
-  //   console.log("cart", cart);
-  //   console.log("wishlist", wishlist);
+
+  // Session if page reload
+  const storedSelectedProduct = sessionStorage.getItem("selectedProduct");
+  const initialSelectedProduct = storedSelectedProduct
+    ? JSON.parse(storedSelectedProduct)
+    : null;
+
+  useEffect(() => {
+    if (initialSelectedProduct) {
+      dispatch(productQuery(initialSelectedProduct));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  //
 
   useEffect(() => {
     if (wishlist.find((item) => selectedProduct?.id === item.id)) {
@@ -78,7 +95,7 @@ const ProductDetails = () => {
     } else {
       setWish(false);
     }
-  }, [wishlist, selectedProduct?.id]);
+  }, [selectedProduct?.id, wishlist]);
 
   return (
     <div className="productDetails-container">
@@ -90,7 +107,7 @@ const ProductDetails = () => {
               key={index}
               className="productDetails-productImages"
               width={300}
-              height={500}
+              height={400}
               alt="product"
               priority="high"
             />

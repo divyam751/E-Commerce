@@ -47,10 +47,10 @@ const Login = () => {
     });
   const dispatch = useAppDispatch();
   const { userData } = useAppSelector((state) => state.users);
-  console.log("userData :", userData);
+  // console.log("userData :", userData);
   const postFormData = async () => {
     try {
-      const response = await fetch(`${REQUEST_URL}/api/login`, {
+      const response = await fetch(`${REQUEST_URL}/login`, {
         method: "POST",
         body: JSON.stringify(formData),
       });

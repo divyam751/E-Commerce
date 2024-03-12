@@ -39,7 +39,7 @@ export async function GET(req, { params }) {
       return NextResponse.json({ msg: "Cart data not found" }, { status: 404 });
     }
 
-    return NextResponse.json({ res, msg: "CartData" });
+    return NextResponse.json(res);
   } catch (error) {
     console.error("Error in GET request:", error);
     return NextResponse.json({ msg: "Internal Server Error" }, { status: 500 });

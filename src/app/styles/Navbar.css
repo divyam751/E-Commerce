@@ -56,6 +56,11 @@
   gap: 15px;
   font-size: 25px;
 }
+.navbar-activeUser {
+  font-size: 20px;
+  font-weight: bold;
+  color: green;
+}
 .navbar-cartBox {
   display: flex;
   align-items: center;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "../styles/Navbar.css";
 import logo from "../../../public/asset/logo.png";
 
@@ -12,6 +12,8 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { searchQuery } from "@/lib/features/productSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
+import { setUserDetails } from "@/lib/features/userSlice";
+import { getCart } from "@/lib/features/cartSlice";
 
 const Navbar = () => {
   const [openHamburger, setOpenHamburger] = useState(false);
@@ -19,7 +21,11 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
-  const { cart, wishlist } = useAppSelector((state) => state.products);
+  const { wishlist } = useAppSelector((state) => state.products);
+  const { userData } = useAppSelector((state) => state.users);
+  const { cartData } = useAppSelector((state) => state.carts);
+
+  const { userName } = userData;
 
   const debounce = (func, delay) => {
     let timeout;
@@ -45,6 +51,28 @@ const Navbar = () => {
   const handleHamburger = () => {
     setOpenHamburger((prev) => !prev);
   };
+
+  // load previous data if page reloaded
+  const loadSessionStore = () => {
+    if (typeof window !== "undefined") {
+      const res = sessionStorage.getItem("userData");
+      return res
+        ? JSON.parse(res)
+        : { userData: { userName: "", userId: "", token: "" } };
+    }
+
+    return { userData: { userName: "", userId: "", token: "" } };
+  };
+
+  useEffect(() => {
+    dispatch(setUserDetails(loadSessionStore().userData));
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (userData.userId) {
+      dispatch(getCart(userData));
+    }
+  }, [dispatch, userData]);
 
   return (
     <div
@@ -74,6 +102,8 @@ const Navbar = () => {
           </div>
         </div>
         <div className="navbar-buttons">
+          <span className="navbar-activeUser"> {userName} </span>
+
           <span onClick={() => router.push("/login")} className="nav-links">
             <FaUserAlt />
           </span>
@@ -90,7 +120,7 @@ const Navbar = () => {
             <div className="navbar-cartBox">
               <FaShoppingCart />
               <div className="navbar-cartBedge">
-                {cart?.length !== 0 ? cart?.length : 0}
+                {cartData?.length !== 0 ? cartData?.length : 0}
               </div>
             </div>
           </span>

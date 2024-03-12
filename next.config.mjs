@@ -12,6 +12,11 @@ const nextConfig = {
         hostname: "assets.myntassets.com",
         pathname: "**",
       },
+      {
+        protocol: "https",
+        hostname: "constant.myntassets.com",
+        pathname: "**",
+      },
     ],
   },
 };

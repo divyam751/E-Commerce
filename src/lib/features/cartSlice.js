@@ -2,8 +2,9 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
 
-export const getCart = createAsyncThunk("product/getCart", async () => {
-  const { userId, token } = sessionStorage.getItem("userData");
+export const getCart = createAsyncThunk("product/getCart", async (userData) => {
+  const { userId, token } = userData;
+  console.log("userData:", userData);
   const response = await fetch(`${REQUEST_URL}/cart/${userId}`, {
     method: "GET",
     headers: {
@@ -12,14 +13,15 @@ export const getCart = createAsyncThunk("product/getCart", async () => {
     },
   });
   const productData = await response.json();
+  console.log(productData.items);
   // console.log("getProducts called");
-  return productData.data;
+  return productData.items;
 });
 
 const cartSlice = createSlice({
   name: "products",
   initialState: {
-    cart: [],
+    cartData: [],
     wishlist: [],
     cartLoading: false,
   },
@@ -31,11 +33,11 @@ const cartSlice = createSlice({
         existingItem.quantity += 1;
       } else {
         payload = { ...payload, quantity: 1 };
-        state.cart = [...state.cart, { ...payload }];
+        state.cartData = [...state.cartData, { ...payload }];
       }
     },
     updateCartQty: (state, { payload }) => {
-      console.log(payload);
+      // console.log(payload);
 
       const existingItem = state.cart.find(
         (item) => item.id === payload.payload.id
@@ -65,7 +67,7 @@ const cartSlice = createSlice({
     });
     builder.addCase(getCart.fulfilled, (state, { payload }) => {
       state.cartLoading = false;
-      state.cart = payload;
+      state.cartData = payload;
     });
     builder.addCase(getCart.rejected, (state, error) => {
       state.cartLoading = true;

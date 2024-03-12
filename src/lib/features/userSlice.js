@@ -6,35 +6,12 @@ const setSessionStore = (state) => {
   }
 };
 
-const loadSessionStore = () => {
-  if (typeof window !== "undefined") {
-    const res = sessionStorage.getItem("userData");
-    return res === null
-      ? {
-          userData: {
-            userName: "",
-            userId: "",
-            token: "",
-          },
-        }
-      : JSON.parse(res);
-  }
-
-  return {
-    userData: {
-      userName: "",
-      userId: "",
-      token: "",
-    },
-  };
-};
-
 const userSlice = createSlice({
   name: "users",
-  initialState: loadSessionStore,
+  initialState: { userData: { userName: "", userId: "", token: "" } },
   reducers: {
     setUserDetails: (state, { payload }) => {
-      console.log("payload :", payload);
+      // console.log("payload :", payload);
       state.userData = { ...payload };
       setSessionStore(state);
     },

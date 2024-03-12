@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
-
+console.log("REQUEST_URL", REQUEST_URL);
 export const getAsset = createAsyncThunk("asset/getAsset", async () => {
   // const response = await fetch("http://localhost:3000/api/asset");
   const response = await fetch(`${REQUEST_URL}/asset`);

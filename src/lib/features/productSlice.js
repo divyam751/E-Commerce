@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
 const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
-
+console.log("REQUEST_URL", REQUEST_URL);
 // console.log(`${REQUEST_URL}/products`);
 
 export const getProducts = createAsyncThunk("product/getProduct", async () => {

@@ -39,7 +39,7 @@ const ProductDetails = () => {
   };
 
   const handleCart = async (item) => {
-    dispatch(addToCart(item));
+    // dispatch(addToCart(item));
 
     try {
       const response = await fetch(`http://localhost:3000/api/cart`, {

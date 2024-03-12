@@ -21,6 +21,8 @@ const ProductDetails = () => {
   const { selectedProduct, wishlist, cart } = useAppSelector(
     (state) => state.products
   );
+  const { userId, token } = useAppSelector((state) => state.users.userData);
+  // console.log("userId :", userId);
   const discount = Math.floor(
     ((selectedProduct?.mrp - selectedProduct?.price) / selectedProduct?.mrp) *
       100
@@ -36,8 +38,33 @@ const ProductDetails = () => {
     dispatch(addToWishlist(item));
   };
 
-  const handleCart = (item) => {
+  const handleCart = async (item) => {
     dispatch(addToCart(item));
+
+    try {
+      const response = await fetch(`http://localhost:3000/api/cart`, {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ items: { ...item }, userId: userId }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        console.log("Added to cart successful");
+        console.log(data);
+        // successNotify();
+        // dispatch(setUserDetails(data));
+      } else {
+        console.error("Error:", response.statusText);
+        // errorNotify();
+      }
+    } catch (error) {
+      console.log(error);
+      // errorNotify();
+    }
   };
   //   console.log("cart", cart);
   //   console.log("wishlist", wishlist);

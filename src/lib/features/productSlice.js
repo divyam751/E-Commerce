@@ -7,7 +7,7 @@ export const getProducts = createAsyncThunk("product/getProduct", async () => {
   return productData.data;
 });
 
-const storedSelectedProduct = localStorage.getItem("selectedProduct");
+const storedSelectedProduct = sessionStorage.getItem("selectedProduct");
 const initialSelectedProduct = storedSelectedProduct
   ? JSON.parse(storedSelectedProduct)
   : null;
@@ -73,7 +73,7 @@ const productSlice = createSlice({
       }
     },
     productQuery: (state, { payload }) => {
-      localStorage.setItem("selectedProduct", JSON.stringify({ ...payload }));
+      sessionStorage.setItem("selectedProduct", JSON.stringify({ ...payload }));
       state.selectedProduct = { ...payload };
     },
 

@@ -1,6 +1,10 @@
 import { NextResponse } from "next/server";
 import { dbConnect } from "@/lib/connectDB";
 import CartModule from "@/models/cart";
+import { headers } from "next/headers";
+import jwt from "jsonwebtoken";
+
+const { SECRET_KEY } = process.env;
 
 export async function GET(req) {
   return NextResponse.json([], { status: 200 });
@@ -10,9 +14,33 @@ export async function POST(req) {
   await dbConnect();
 
   try {
+    const authorization = headers().get("authorization");
+
+    if (!authorization) {
+      return NextResponse.json({ msg: "Please login first!" }, { status: 401 });
+    }
+
+    const token = authorization.split(" ")[1];
+
+    if (!token) {
+      return NextResponse.json(
+        { msg: "Token missing in authorization header" },
+        { status: 401 }
+      );
+    }
+
+    const decodedToken = jwt.verify(token, SECRET_KEY);
+    console.log(decodedToken);
+
+    if (!decodedToken) {
+      return NextResponse.json({ msg: "Token not decoded" }, { status: 401 });
+    }
+
     const body = await req.json();
+    console.log("body :", body);
     const userId = body.userId;
-    const newProduct = body.items[0];
+
+    const newProduct = body.items;
 
     const existingCart = await CartModule.findOne({ userId });
 
@@ -24,8 +52,10 @@ export async function POST(req) {
       return NextResponse.json({ updatedCart }, { status: 200 });
     } else {
       console.log(`No cart found for userId ${userId}.`);
-      const res = await CartModule.create(body);
-      console.log(res);
+
+      const newCart = new CartModule({ ...body });
+      await newCart.save();
+
       const updatedCart = await CartModule.findOne({ userId });
       return NextResponse.json({ updatedCart }, { status: 200 });
     }

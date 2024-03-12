@@ -1,5 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
+
 export const getCart = createAsyncThunk("product/getCart", async () => {
   const { userId, token } = sessionStorage.getItem("userData");
   const response = await fetch(`${REQUEST_URL}/cart/${userId}`, {
@@ -13,7 +15,6 @@ export const getCart = createAsyncThunk("product/getCart", async () => {
   // console.log("getProducts called");
   return productData.data;
 });
-const REQUEST_URL = process.env.REQUEST_URL;
 
 const cartSlice = createSlice({
   name: "products",

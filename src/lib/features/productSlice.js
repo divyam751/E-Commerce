@@ -1,5 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
+const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
+
+// console.log(`${REQUEST_URL}/products`);
+
 export const getProducts = createAsyncThunk("product/getProduct", async () => {
   // const response = await fetch("http://localhost:3000/api/products");
   const response = await fetch(`${REQUEST_URL}/products`);
@@ -7,9 +11,8 @@ export const getProducts = createAsyncThunk("product/getProduct", async () => {
   // console.log("getProducts called");
   return productData.data;
 });
-const REQUEST_URL = process.env.REQUEST_URL;
+
 // const response = await fetch(`${REQUEST_URL}/products`);
-console.log(`${REQUEST_URL}/products`);
 const storedSelectedProduct =
   typeof window !== "undefined"
     ? sessionStorage.getItem("selectedProduct")

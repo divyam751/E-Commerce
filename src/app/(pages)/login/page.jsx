@@ -19,8 +19,8 @@ const Login = () => {
   const handleShow = () => {
     setShow((prev) => !prev);
   };
-  const REQUEST_URL = process.env.REQUEST_URL;
 
+  const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
   const successNotify = () =>
     toast.success("😏 Login successful", {
       position: "top-right",

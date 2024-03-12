@@ -42,7 +42,7 @@ const Signup = () => {
       theme: "colored",
       transition: Bounce,
     });
-
+  const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
   const postFormData = async () => {
     try {
       const response = await fetch(`${REQUEST_URL}/api/signup`, {
@@ -64,7 +64,7 @@ const Signup = () => {
       errorNotify();
     }
   };
-  const REQUEST_URL = process.env.REQUEST_URL;
+
   const handleSubmit = (event) => {
     event.preventDefault();
     console.log(formData);

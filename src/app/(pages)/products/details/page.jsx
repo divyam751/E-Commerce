@@ -39,7 +39,7 @@ const ProductDetails = () => {
       dispatch(addToWishlist(item));
     }
   };
-  const REQUEST_URL = process.env.REQUEST_URL;
+  const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
   const handleCart = async (item) => {
     // dispatch(addToCart(item));
     if (item) {

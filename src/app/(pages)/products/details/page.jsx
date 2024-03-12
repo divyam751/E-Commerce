@@ -35,7 +35,9 @@ const ProductDetails = () => {
   };
 
   const handleWishlist = (item) => {
-    dispatch(addToWishlist(item));
+    if (item) {
+      dispatch(addToWishlist(item));
+    }
   };
 
   const handleCart = async (item) => {
@@ -71,12 +73,12 @@ const ProductDetails = () => {
   //   console.log("wishlist", wishlist);
 
   useEffect(() => {
-    if (wishlist.find((item) => selectedProduct.id === item.id)) {
+    if (wishlist.find((item) => selectedProduct?.id === item.id)) {
       setWish(true);
     } else {
       setWish(false);
     }
-  }, [wishlist, selectedProduct.id]);
+  }, [wishlist, selectedProduct?.id]);
 
   return (
     <div className="productDetails-container">

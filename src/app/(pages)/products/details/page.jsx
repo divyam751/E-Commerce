@@ -40,30 +40,31 @@ const ProductDetails = () => {
 
   const handleCart = async (item) => {
     // dispatch(addToCart(item));
+    if (item) {
+      try {
+        const response = await fetch(`http://localhost:3000/api/cart`, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify({ items: { ...item }, userId: userId }),
+        });
 
-    try {
-      const response = await fetch(`http://localhost:3000/api/cart`, {
-        method: "POST",
-        headers: {
-          "Content-type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify({ items: { ...item }, userId: userId }),
-      });
-
-      if (response.ok) {
-        const data = await response.json();
-        console.log("Added to cart successful");
-        console.log(data);
-        // successNotify();
-        // dispatch(setUserDetails(data));
-      } else {
-        console.error("Error:", response.statusText);
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Added to cart successful");
+          console.log(data);
+          // successNotify();
+          // dispatch(setUserDetails(data));
+        } else {
+          console.error("Error:", response.statusText);
+          // errorNotify();
+        }
+      } catch (error) {
+        console.log(error);
         // errorNotify();
       }
-    } catch (error) {
-      console.log(error);
-      // errorNotify();
     }
   };
   //   console.log("cart", cart);

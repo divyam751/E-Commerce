@@ -50,7 +50,7 @@ const Product = () => {
   useEffect(() => {
     dispatch(getProducts());
     dispatch(setCustomFilter(filters));
-  }, []);
+  }, [dispatch, filters]);
 
   useEffect(() => {
     dispatch(setCustomFilter(filters));

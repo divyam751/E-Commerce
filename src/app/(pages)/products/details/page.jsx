@@ -75,7 +75,7 @@ const ProductDetails = () => {
     } else {
       setWish(false);
     }
-  }, [wishlist]);
+  }, [wishlist, selectedProduct.id]);
 
   return (
     <div className="productDetails-container">
@@ -89,7 +89,7 @@ const ProductDetails = () => {
               width={300}
               height={500}
               alt="product"
-              priority
+              priority="high"
             />
           );
         })}

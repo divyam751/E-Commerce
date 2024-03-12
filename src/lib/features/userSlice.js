@@ -1,19 +1,32 @@
 const { createSlice } = require("@reduxjs/toolkit");
 
 const setSessionStore = (state) => {
-  sessionStorage.setItem("userData", JSON.stringify(state));
+  if (typeof window !== "undefined") {
+    sessionStorage.setItem("userData", JSON.stringify(state));
+  }
 };
+
 const loadSessionStore = () => {
-  const res = sessionStorage.getItem("userData");
-  return res === null
-    ? {
-        userData: {
-          userName: "",
-          userId: "",
-          token: "",
-        },
-      }
-    : JSON.parse(res);
+  if (typeof window !== "undefined") {
+    const res = sessionStorage.getItem("userData");
+    return res === null
+      ? {
+          userData: {
+            userName: "",
+            userId: "",
+            token: "",
+          },
+        }
+      : JSON.parse(res);
+  }
+
+  return {
+    userData: {
+      userName: "",
+      userId: "",
+      token: "",
+    },
+  };
 };
 
 const userSlice = createSlice({

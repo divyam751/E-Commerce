@@ -1,7 +1,18 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   images: {
-    domains: ["github.com", "assets.myntassets.com"], // Add "assets.myntassets.com" to the array
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "github.com",
+        pathname: "**",
+      },
+      {
+        protocol: "https",
+        hostname: "assets.myntassets.com",
+        pathname: "**",
+      },
+    ],
   },
 };
 

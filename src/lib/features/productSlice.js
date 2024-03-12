@@ -7,7 +7,10 @@ export const getProducts = createAsyncThunk("product/getProduct", async () => {
   return productData.data;
 });
 
-const storedSelectedProduct = sessionStorage.getItem("selectedProduct");
+const storedSelectedProduct =
+  typeof window !== "undefined"
+    ? sessionStorage.getItem("selectedProduct")
+    : null;
 const initialSelectedProduct = storedSelectedProduct
   ? JSON.parse(storedSelectedProduct)
   : null;
@@ -73,7 +76,12 @@ const productSlice = createSlice({
       }
     },
     productQuery: (state, { payload }) => {
-      sessionStorage.setItem("selectedProduct", JSON.stringify({ ...payload }));
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(
+          "selectedProduct",
+          JSON.stringify({ ...payload })
+        );
+      }
       state.selectedProduct = { ...payload };
     },
 

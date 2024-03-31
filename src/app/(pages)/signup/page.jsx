@@ -55,6 +55,9 @@ const Signup = () => {
         console.log("Account created successfully");
         console.log(data);
         successNotify();
+        setTimeout(() => {
+          router.push("/login");
+        }, 3000);
       } else {
         console.error("Error:", response.statusText);
         errorNotify();

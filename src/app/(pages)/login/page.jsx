@@ -61,6 +61,9 @@ const Login = () => {
         console.log(data);
         successNotify();
         dispatch(setUserDetails(data));
+        setTimeout(() => {
+          router.push("/home");
+        }, [2000]);
       } else {
         console.error("Error:", response.statusText);
         errorNotify();

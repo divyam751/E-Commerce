@@ -14,6 +14,8 @@ import { searchQuery } from "@/lib/features/productSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { setUserDetails } from "@/lib/features/userSlice";
 import { getCart } from "@/lib/features/cartSlice";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Navbar = () => {
   const [openHamburger, setOpenHamburger] = useState(false);
@@ -25,7 +27,7 @@ const Navbar = () => {
   const { userData } = useAppSelector((state) => state.users);
   const { cartData } = useAppSelector((state) => state.carts);
 
-  const { userName } = userData;
+  const { userName, userId } = userData;
 
   const debounce = (func, delay) => {
     let timeout;
@@ -46,6 +48,8 @@ const Navbar = () => {
     const debouncedDispatch = debounce(delayedDispatch, 2000);
 
     debouncedDispatch();
+
+    router.push("/products");
   };
 
   const handleHamburger = () => {
@@ -63,7 +67,29 @@ const Navbar = () => {
 
     return { userData: { userName: "", userId: "", token: "" } };
   };
-
+  const loginRoute = () => {
+    toast.info("Please login first", {
+      position: "top-right",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce,
+    });
+    setTimeout(() => {
+      router.push("/login");
+    }, [2000]);
+  };
+  const handleCartRoute = () => {
+    if (userId) {
+      router.push("/cart");
+    } else {
+      loginRoute();
+    }
+  };
   useEffect(() => {
     dispatch(setUserDetails(loadSessionStore().userData));
   }, [dispatch]);
@@ -81,7 +107,13 @@ const Navbar = () => {
       }`}
     >
       <div className="navbar">
-        <Image src={logo} alt="logo" priority className="logo" />
+        <Image
+          src={logo}
+          alt="logo"
+          priority
+          className="logo"
+          onClick={() => router.push("/")}
+        />
         <div className="navbar-linksBox">
           <span onClick={() => router.push("/home")} className="nav-links">
             Home
@@ -116,7 +148,7 @@ const Navbar = () => {
               </div>
             </div>
           </span>
-          <span onClick={() => router.push("/cart")} className="nav-links">
+          <span onClick={() => handleCartRoute()} className="nav-links">
             <div className="navbar-cartBox">
               <FaShoppingCart />
               <div className="navbar-cartBedge">
@@ -147,6 +179,19 @@ const Navbar = () => {
           />
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
     </div>
   );
 };

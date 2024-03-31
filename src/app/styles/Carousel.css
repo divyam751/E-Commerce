@@ -8,6 +8,7 @@
   overflow-y: hidden;
   overflow-x: hidden;
   object-fit: cover;
+  cursor: pointer;
 }
 .carousel-images {
   width: 100%;

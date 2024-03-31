@@ -14,7 +14,8 @@ export const getCart = createAsyncThunk("product/getCart", async (userData) => {
   });
   const productData = await response.json();
   console.log(productData.items);
-  // console.log("getProducts called");
+  console.log("getProducts called");
+  console.log("prodata :", productData);
   return productData.items;
 });
 

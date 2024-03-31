@@ -3,6 +3,7 @@ import CartProductCard from "@/app/components/CartProductCard";
 import "../../styles/Cart.css";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import Image from "next/image";
+import emptyCart from "../../../../public/asset/empty-cart.svg";
 import { useEffect } from "react";
 import { getCart } from "@/lib/features/cartSlice";
 
@@ -21,9 +22,21 @@ const Cart = () => {
       </div>
       <div className="cart-parentBox">
         <div className="cart-productsSection">
-          {cartData?.map((item) => {
-            return <CartProductCard key={item._id} item={item} />;
-          })}
+          {cartData?.length === 0 ? (
+            <>
+              <Image
+                src={emptyCart}
+                alt="empty-cart"
+                width={400}
+                height={400}
+              />
+              <h2> Your shoping Cart is empty! </h2>
+            </>
+          ) : (
+            cartData?.map((item) => {
+              return <CartProductCard key={item._id} item={item} />;
+            })
+          )}
         </div>
         <div className="cart-productAmountSection">
           <p className="cart-subHeadings">COUPONS</p>

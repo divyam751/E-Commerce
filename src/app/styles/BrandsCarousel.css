@@ -6,6 +6,7 @@
   gap: 20px;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 }
 .brands-images {
   /* width: 300px;

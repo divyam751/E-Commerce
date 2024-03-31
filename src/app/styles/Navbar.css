@@ -23,6 +23,7 @@
 .logo {
   height: 50px;
   width: auto;
+  cursor: pointer;
 }
 .navbar-linksBox {
   display: flex;

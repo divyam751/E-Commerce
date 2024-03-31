@@ -14,6 +14,8 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import Image from "next/image";
 import { addToWishlist, getCart } from "@/lib/features/cartSlice";
 import { productQuery } from "@/lib/features/productSlice";
+import { Bounce, ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductDetails = () => {
   const [pincode, setPincode] = useState(false);
@@ -24,6 +26,19 @@ const ProductDetails = () => {
   const { userData } = useAppSelector((state) => state.users);
   // console.log("userId :", userId);
   const { userId, token } = userData;
+
+  const successNotify = () =>
+    toast.success("Product successfully added to cart ", {
+      position: "top-right",
+      autoClose: 1000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true,
+      progress: undefined,
+      theme: "colored",
+      transition: Bounce,
+    });
 
   const discount = Math.floor(
     ((selectedProduct?.mrp - selectedProduct?.price) / selectedProduct?.mrp) *
@@ -61,7 +76,7 @@ const ProductDetails = () => {
           console.log("Added to cart successful");
           console.log(data);
           dispatch(getCart(userData));
-          // successNotify();
+          successNotify();
           // dispatch(setUserDetails(data));
         } else {
           console.error("Error:", response.statusText);
@@ -235,6 +250,19 @@ const ProductDetails = () => {
           )}
         </div>
       </div>
+      <ToastContainer
+        position="top-right"
+        autoClose={3000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="colored"
+        transition={Bounce}
+      />
     </div>
   );
 };

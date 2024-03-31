@@ -36,7 +36,10 @@ export async function GET(req, { params }) {
     const res = await CartModule.findOne({ userId });
 
     if (!res) {
-      return NextResponse.json({ msg: "Cart data not found" }, { status: 404 });
+      return NextResponse.json(
+        { items: [], msg: "Cart data not found" },
+        { status: 404 }
+      );
     }
 
     return NextResponse.json(res);

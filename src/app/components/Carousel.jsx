@@ -2,8 +2,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "../styles/Carousel.css";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 
 const Carousel = ({ arr }) => {
+  const router = useRouter();
   let posters = [];
   {
     arr?.map((item) => {
@@ -23,7 +25,10 @@ const Carousel = ({ arr }) => {
   }, [posters.length]);
 
   return (
-    <div className="carousel-container">
+    <div
+      className="carousel-container"
+      onClick={() => router.push("/products")}
+    >
       <Image
         className="carousel-images"
         src={posters[idx]}

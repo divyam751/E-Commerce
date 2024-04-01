@@ -15,7 +15,7 @@ const ProductCard = ({ item }) => {
   const handleClick = (item) => {
     dispatch(productQuery(item));
     router.push("/products/details");
-    console.log(item);
+    // console.log(item);
   };
   return (
     <div className="productCard-container" onClick={() => handleClick(item)}>

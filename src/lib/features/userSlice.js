@@ -1,6 +1,6 @@
 const { createSlice } = require("@reduxjs/toolkit");
 
-const setSessionStore = (state) => {
+export const setSessionStore = (state) => {
   if (typeof window !== "undefined") {
     sessionStorage.setItem("userData", JSON.stringify(state));
   }
@@ -15,9 +15,18 @@ const userSlice = createSlice({
       state.userData = { ...payload };
       setSessionStore(state);
     },
+    logout: (state) => {
+      state.userData = {
+        ...state.userData,
+        userName: "",
+        userId: "",
+        token: "",
+      };
+      setSessionStore(state);
+    },
   },
 });
 
-export const { setUserDetails } = userSlice.actions;
+export const { setUserDetails, logout } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -62,7 +62,7 @@ const Login = () => {
         successNotify();
         dispatch(setUserDetails(data));
         setTimeout(() => {
-          router.push("/home");
+          router.push("/products");
         }, [2000]);
       } else {
         console.error("Error:", response.statusText);

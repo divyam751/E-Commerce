@@ -16,8 +16,10 @@ import { addToWishlist, getCart } from "@/lib/features/cartSlice";
 import { productQuery } from "@/lib/features/productSlice";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useRouter } from "next/navigation";
 
 const ProductDetails = () => {
+  const [loading, setLoading] = useState(false);
   const [pincode, setPincode] = useState(false);
   const [selectedSize, setSelectedSize] = useState("");
   const [wish, setWish] = useState(false);
@@ -40,6 +42,8 @@ const ProductDetails = () => {
       transition: Bounce,
     });
 
+  const router = useRouter();
+
   const discount = Math.floor(
     ((selectedProduct?.mrp - selectedProduct?.price) / selectedProduct?.mrp) *
       100
@@ -60,8 +64,9 @@ const ProductDetails = () => {
 
   const handleCart = async (item) => {
     // dispatch(addToCart(item));
-    if (item) {
+    if (item && !loading) {
       try {
+        setLoading(true);
         const response = await fetch(`${REQUEST_URL}/cart`, {
           method: "POST",
           headers: {
@@ -73,18 +78,25 @@ const ProductDetails = () => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log("Added to cart successful");
-          console.log(data);
+          // console.log("Added to cart successful");
+          // console.log(data);
           dispatch(getCart(userData));
-          successNotify();
+          setTimeout(() => {
+            successNotify();
+          }, 500);
+
           // dispatch(setUserDetails(data));
         } else {
           console.error("Error:", response.statusText);
+          router.push("/login");
           // errorNotify();
         }
       } catch (error) {
         console.log(error);
+
         // errorNotify();
+      } finally {
+        setLoading(false);
       }
     }
   };

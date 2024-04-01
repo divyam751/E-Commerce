@@ -7,15 +7,18 @@ import logo from "../../../public/asset/logo.png";
 import { FaHeart, FaSearch, FaShoppingCart, FaUserAlt } from "react-icons/fa";
 import { GiHamburgerMenu } from "react-icons/gi";
 import { IoClose } from "react-icons/io5";
+import { IoLogOut } from "react-icons/io5";
 
 import Image from "next/image";
+
 import { useRouter } from "next/navigation";
 import { searchQuery } from "@/lib/features/productSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
-import { setUserDetails } from "@/lib/features/userSlice";
-import { getCart } from "@/lib/features/cartSlice";
+import { logout, setUserDetails } from "@/lib/features/userSlice";
+import { getCart, loadLogout } from "@/lib/features/cartSlice";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import Tooltip from "./Tooltip";
 
 const Navbar = () => {
   const [openHamburger, setOpenHamburger] = useState(false);
@@ -90,6 +93,13 @@ const Navbar = () => {
       loginRoute();
     }
   };
+  const handleLogout = () => {
+    sessionStorage.clear();
+    dispatch(logout());
+    dispatch(loadLogout());
+    router.push("/home");
+  };
+
   useEffect(() => {
     dispatch(setUserDetails(loadSessionStore().userData));
   }, [dispatch]);
@@ -136,25 +146,42 @@ const Navbar = () => {
         <div className="navbar-buttons">
           <span className="navbar-activeUser"> {userName} </span>
 
-          <span onClick={() => router.push("/login")} className="nav-links">
-            <FaUserAlt />
-          </span>
-          <span onClick={() => router.push("/wishlist")} className="nav-links">
-            <div className="navbar-cartBox">
-              <FaHeart />
+          {userId !== "" ? (
+            <Tooltip content="Logout">
+              <span onClick={() => handleLogout()} className="nav-links">
+                <IoLogOut size={30} />
+              </span>
+            </Tooltip>
+          ) : (
+            <Tooltip content="Login">
+              <span onClick={() => router.push("/login")} className="nav-links">
+                <FaUserAlt />
+              </span>
+            </Tooltip>
+          )}
 
-              <div className="navbar-cartBedge">
-                {wishlist?.length !== 0 ? wishlist?.length : 0}
+          <Tooltip content="Wishlist">
+            <span
+              onClick={() => router.push("/wishlist")}
+              className="nav-links"
+            >
+              <div className="navbar-cartBox">
+                <FaHeart />
+                <div className="navbar-cartBedge">
+                  {wishlist?.length !== 0 ? wishlist?.length : 0}
+                </div>
               </div>
-            </div>
-          </span>
+            </span>
+          </Tooltip>
           <span onClick={() => handleCartRoute()} className="nav-links">
-            <div className="navbar-cartBox">
-              <FaShoppingCart />
-              <div className="navbar-cartBedge">
-                {cartData?.length !== 0 ? cartData?.length : 0}
+            <Tooltip content="Cart">
+              <div className="navbar-cartBox">
+                <FaShoppingCart />
+                <div className="navbar-cartBedge">
+                  {cartData?.length !== 0 ? cartData?.length : 0}
+                </div>
               </div>
-            </div>
+            </Tooltip>
           </span>
 
           <div className="navbar-hamburger" onClick={handleHamburger}>

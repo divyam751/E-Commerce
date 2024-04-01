@@ -4,7 +4,7 @@ const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
 
 export const getCart = createAsyncThunk("product/getCart", async (userData) => {
   const { userId, token } = userData;
-  console.log("userData:", userData);
+  // console.log("userData:", userData);
   const response = await fetch(`${REQUEST_URL}/cart/${userId}`, {
     method: "GET",
     headers: {
@@ -13,9 +13,9 @@ export const getCart = createAsyncThunk("product/getCart", async (userData) => {
     },
   });
   const productData = await response.json();
-  console.log(productData.items);
-  console.log("getProducts called");
-  console.log("prodata :", productData);
+  // console.log(productData.items);
+  // console.log("getProducts called");
+  // console.log("prodata :", productData);
   return productData.items;
 });
 
@@ -29,6 +29,8 @@ const cartSlice = createSlice({
   reducers: {
     addToCart: (state, { payload }) => {
       const existingItem = state.cart.find((item) => item.id === payload.id);
+
+      console.log("this=>", existingItem);
 
       if (existingItem) {
         existingItem.quantity += 1;
@@ -60,6 +62,9 @@ const cartSlice = createSlice({
         state.wishlist.splice(existingIndex, 1);
       }
     },
+    loadLogout: (state) => {
+      state.cartData = [];
+    },
   },
 
   extraReducers: (builder) => {
@@ -77,5 +82,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, addToWishlist, updateCartQty } = cartSlice.actions;
+export const { addToCart, addToWishlist, updateCartQty, loadLogout } =
+  cartSlice.actions;
 export default cartSlice.reducer;

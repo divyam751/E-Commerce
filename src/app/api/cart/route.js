@@ -37,7 +37,7 @@ export async function POST(req) {
     }
 
     const body = await req.json();
-    console.log("body :", body);
+    // console.log("body :", body);
     const userId = body.userId;
 
     const newProduct = body.items;
@@ -45,9 +45,17 @@ export async function POST(req) {
     const existingCart = await CartModule.findOne({ userId });
 
     if (existingCart) {
-      existingCart.items.push(newProduct);
+      const existingItem = existingCart.items.find(
+        (item) => item._id.toString() === newProduct._id
+      );
+
+      if (existingItem) {
+        existingItem.quantity += 1;
+      } else {
+        existingCart.items.push(newProduct);
+      }
       await existingCart.save();
-      console.log(`New product added to the cart for userId ${userId}.`);
+      // console.log(`New product added to the cart for userId ${userId}.`);
       const updatedCart = await CartModule.findOne({ userId });
       return NextResponse.json({ updatedCart }, { status: 200 });
     } else {
@@ -55,7 +63,6 @@ export async function POST(req) {
 
       const newCart = new CartModule({ ...body });
       await newCart.save();
-
       const updatedCart = await CartModule.findOne({ userId });
       return NextResponse.json({ updatedCart }, { status: 200 });
     }

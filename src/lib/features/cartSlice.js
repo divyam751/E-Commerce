@@ -4,7 +4,6 @@ const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
 
 export const getCart = createAsyncThunk("product/getCart", async (userData) => {
   const { userId, token } = userData;
-  // console.log("userData:", userData);
   const response = await fetch(`${REQUEST_URL}/cart/${userId}`, {
     method: "GET",
     headers: {
@@ -13,47 +12,55 @@ export const getCart = createAsyncThunk("product/getCart", async (userData) => {
     },
   });
   const productData = await response.json();
-  // console.log(productData.items);
-  // console.log("getProducts called");
-  // console.log("prodata :", productData);
   return productData.items;
 });
+
+const calculateCartPrice = (cartData) => {
+  let totalMrp = 0;
+  let totalDiscount = 0;
+  let totalAmount = 0;
+  let couponDiscount = 0;
+  let platformFee = 20;
+  let shipingFee = 0;
+
+  cartData?.forEach((product) => {
+    totalMrp += product.mrp * product.quantity;
+    totalAmount += product.price * product.quantity;
+  });
+
+  totalDiscount = totalMrp - totalAmount;
+
+  return {
+    totalMrp,
+    totalDiscount,
+    couponDiscount,
+    platformFee,
+    shipingFee,
+    totalAmount,
+  };
+};
 
 const cartSlice = createSlice({
   name: "products",
   initialState: {
     cartData: [],
+    cartPrice: {
+      totalMrp: 0,
+      totalDiscount: 0,
+      couponDiscount: 0,
+      platformFee: 20,
+      shipingFee: 0,
+      totalAmount: 0,
+    },
     wishlist: [],
     cartLoading: false,
   },
   reducers: {
     updateCart: (state, { payload }) => {
       state.cartData = payload;
+      state.cartPrice = calculateCartPrice(payload);
     },
-    addToCart: (state, { payload }) => {
-      const existingItem = state.cart.find((item) => item.id === payload.id);
 
-      console.log("this=>", existingItem);
-
-      if (existingItem) {
-        existingItem.quantity += 1;
-      } else {
-        payload = { ...payload, quantity: 1 };
-        state.cartData = [...state.cartData, { ...payload }];
-      }
-    },
-    updateCartQty: (state, { payload }) => {
-      // console.log(payload);
-
-      const existingItem = state.cart.find(
-        (item) => item.id === payload.payload.id
-      );
-      if (payload.action === "ADD") {
-        existingItem.quantity += 1;
-      } else {
-        existingItem.quantity -= 1;
-      }
-    },
     addToWishlist: (state, { payload }) => {
       const existingIndex = state.wishlist.findIndex(
         (item) => item.id === payload.id
@@ -67,6 +74,14 @@ const cartSlice = createSlice({
     },
     loadLogout: (state) => {
       state.cartData = [];
+      state.cartPrice = {
+        totalMrp: 0,
+        totalDiscount: 0,
+        couponDiscount: 0,
+        platformFee: 20,
+        shipingFee: 0,
+        totalAmount: 0,
+      };
     },
   },
 
@@ -77,6 +92,7 @@ const cartSlice = createSlice({
     builder.addCase(getCart.fulfilled, (state, { payload }) => {
       state.cartLoading = false;
       state.cartData = payload;
+      state.cartPrice = calculateCartPrice(payload);
     });
     builder.addCase(getCart.rejected, (state, error) => {
       state.cartLoading = true;
@@ -85,11 +101,5 @@ const cartSlice = createSlice({
   },
 });
 
-export const {
-  addToCart,
-  addToWishlist,
-  updateCartQty,
-  loadLogout,
-  updateCart,
-} = cartSlice.actions;
+export const { addToWishlist, loadLogout, updateCart } = cartSlice.actions;
 export default cartSlice.reducer;

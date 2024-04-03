@@ -8,7 +8,7 @@ import { useEffect } from "react";
 import { getCart } from "@/lib/features/cartSlice";
 
 const Cart = () => {
-  const { cartData } = useAppSelector((state) => state.carts);
+  const { cartData, cartPrice } = useAppSelector((state) => state.carts);
   const { userData } = useAppSelector((state) => state.users);
   const dispatch = useAppDispatch();
 
@@ -70,24 +70,36 @@ const Cart = () => {
           <p className="cart-subHeadings">PRICE DETAILS</p>
           <div className="cart-priceDetailsParent">
             <div className="cart-priceDetailsChild">
-              <span>Total MRP</span> <span>₹8,990</span>
+              <span>Total MRP</span>
+              <span>₹ {cartPrice.totalMrp.toLocaleString("en-IN")} </span>
             </div>
             <div className="cart-priceDetailsChild">
-              <span>Discount on MRP</span> <span> - ₹6,120</span>
+              <span>Discount on MRP</span>
+              <span>- ₹ {cartPrice.totalDiscount.toLocaleString("en-IN")}</span>
             </div>
             <div className="cart-priceDetailsChild">
-              <span>Coupon Discount</span> <span> - ₹100</span>
+              <span>Coupon Discount</span>{" "}
+              <span>
+                - ₹ {cartPrice.couponDiscount.toLocaleString("en-IN")}
+              </span>
             </div>
             <div className="cart-priceDetailsChild">
-              <span>Platform Fee</span> <span> ₹20</span>
+              <span>Platform Fee</span>{" "}
+              <span> ₹ {cartPrice.platformFee.toLocaleString("en-IN")}</span>
             </div>
             <div className="cart-priceDetailsChild">
-              <span>Shiping Fee</span> <span> FREE</span>
+              <span>Shiping Fee</span>{" "}
+              <span>
+                {cartPrice.shipingFee === 0
+                  ? "FREE"
+                  : ` ₹ ${cartPrice.shipingFee.toLocaleString("en-IN")}`}
+              </span>
             </div>
             <hr />
 
             <div className="cart-priceDetailsChild">
-              <h4>Total Amount</h4> <h4> ₹2890</h4>
+              <h4>Total Amount</h4>{" "}
+              <h4> ₹ {cartPrice.totalAmount.toLocaleString("en-IN")}</h4>
             </div>
           </div>
           <button className="cart-placeOrderBtn">PLACE ORDER</button>

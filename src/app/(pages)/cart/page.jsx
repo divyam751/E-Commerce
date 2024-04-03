@@ -34,7 +34,13 @@ const Cart = () => {
             </>
           ) : (
             cartData?.map((item) => {
-              return <CartProductCard key={item._id} item={item} />;
+              return (
+                <CartProductCard
+                  key={item._id}
+                  item={item}
+                  userData={userData}
+                />
+              );
             })
           )}
         </div>

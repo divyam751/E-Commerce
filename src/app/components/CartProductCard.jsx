@@ -1,10 +1,12 @@
-import { updateCartQty } from "@/lib/features/cartSlice";
+import { updateCart, updateCartQty } from "@/lib/features/cartSlice";
 import "../styles/CartProductCard.css";
-import { useAppDispatch } from "@/lib/hooks";
+import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import Image from "next/image";
 
-const CartProductCard = ({ item }) => {
+const CartProductCard = ({ item, userData }) => {
   const dispatch = useAppDispatch();
+  const { userId, token } = userData;
+  const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
 
   const handleIncrease = () => {
     dispatch(updateCartQty({ payload: item, action: "ADD" }));
@@ -12,6 +14,33 @@ const CartProductCard = ({ item }) => {
   const handleDecrease = () => {
     dispatch(updateCartQty({ payload: item, action: "SUB" }));
   };
+
+  const handleRemove = async () => {
+    console.log("remove calls");
+    try {
+      const response = await fetch(`${REQUEST_URL}/cart`, {
+        method: "DELETE",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userId,
+          itemId: item._id,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to remove item from cart");
+      }
+      const responseData = await response.json();
+      console.log("response=>", responseData);
+      // return responseData;
+      dispatch(updateCart(responseData));
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
   const discount = Math.floor(((item?.mrp - item?.price) / item?.mrp) * 100);
   return (
     <div className="cartProductCard-container">
@@ -54,7 +83,12 @@ const CartProductCard = ({ item }) => {
           </label>
         </div>
         <div className="cartProductCard-buttonBox">
-          <button className="cartProductCard-removeBtn">Remove</button>
+          <button
+            className="cartProductCard-removeBtn"
+            onClick={() => handleRemove()}
+          >
+            Remove
+          </button>
         </div>
       </div>
     </div>

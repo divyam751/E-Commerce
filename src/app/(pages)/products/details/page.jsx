@@ -12,7 +12,7 @@ import { GiPayMoney } from "react-icons/gi";
 
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import Image from "next/image";
-import { addToWishlist, getCart } from "@/lib/features/cartSlice";
+import { addToWishlist, getCart, updateCart } from "@/lib/features/cartSlice";
 import { productQuery } from "@/lib/features/productSlice";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -79,8 +79,9 @@ const ProductDetails = () => {
         if (response.ok) {
           const data = await response.json();
           // console.log("Added to cart successful");
-          // console.log(data);
-          dispatch(getCart(userData));
+          console.log("response Data=>", data);
+          // dispatch(getCart(userData));
+          dispatch(updateCart(data));
           setTimeout(() => {
             successNotify();
           }, 500);

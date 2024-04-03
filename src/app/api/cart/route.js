@@ -57,14 +57,14 @@ export async function POST(req) {
       await existingCart.save();
       // console.log(`New product added to the cart for userId ${userId}.`);
       const updatedCart = await CartModule.findOne({ userId });
-      return NextResponse.json({ updatedCart }, { status: 200 });
+      return NextResponse.json(updatedCart.items, { status: 200 });
     } else {
       console.log(`No cart found for userId ${userId}.`);
 
       const newCart = new CartModule({ ...body });
       await newCart.save();
       const updatedCart = await CartModule.findOne({ userId });
-      return NextResponse.json({ updatedCart }, { status: 200 });
+      return NextResponse.json(updatedCart.items, { status: 200 });
     }
   } catch (error) {
     console.error(`Error processing POST request: ${error.message}`);
@@ -102,7 +102,7 @@ export async function PATCH(req) {
         await existingCart.save();
         const updatedCart = await CartModule.findOne({ userId });
 
-        return NextResponse.json({ updatedCart }, { status: 200 });
+        return NextResponse.json(updatedCart.items, { status: 200 });
       } else {
         console.log(
           `Item ${itemIdToUpdate} not found in the cart for userId ${userId}.`
@@ -139,7 +139,7 @@ export async function DELETE(req) {
         await existingCart.save();
         const updatedCart = await CartModule.findOne({ userId });
 
-        return NextResponse.json({ updatedCart }, { status: 200 });
+        return NextResponse.json(updatedCart.items, { status: 200 });
       } else {
         return NextResponse.json(
           { msg: "Item not found in the cart" },

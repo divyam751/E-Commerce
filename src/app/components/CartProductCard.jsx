@@ -8,15 +8,7 @@ const CartProductCard = ({ item, userData }) => {
   const { userId, token } = userData;
   const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
 
-  const handleIncrease = () => {
-    dispatch(updateCartQty({ payload: item, action: "ADD" }));
-  };
-  const handleDecrease = () => {
-    dispatch(updateCartQty({ payload: item, action: "SUB" }));
-  };
-
   const handleRemove = async () => {
-    console.log("remove calls");
     try {
       const response = await fetch(`${REQUEST_URL}/cart`, {
         method: "DELETE",
@@ -33,7 +25,30 @@ const CartProductCard = ({ item, userData }) => {
         throw new Error("Failed to remove item from cart");
       }
       const responseData = await response.json();
-      console.log("response=>", responseData);
+      dispatch(updateCart(responseData));
+    } catch (error) {
+      throw new Error(error.message);
+    }
+  };
+
+  const handleQuantity = async (action) => {
+    try {
+      const response = await fetch(`${REQUEST_URL}/cart`, {
+        method: "PATCH",
+        headers: {
+          "Content-type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          userId,
+          itemId: item._id,
+          action,
+        }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to update cart item");
+      }
+      const responseData = await response.json();
       // return responseData;
       dispatch(updateCart(responseData));
     } catch (error) {
@@ -74,11 +89,14 @@ const CartProductCard = ({ item, userData }) => {
           <label className="cartProductCard-quantity">
             Qty :
             <div className="cartProductCard-qtyCounter">
-              <button onClick={handleDecrease} disabled={item.quantity < 2}>
+              <button
+                onClick={() => handleQuantity("DEC")}
+                disabled={item.quantity < 2}
+              >
                 -
               </button>
               <h4> {item.quantity} </h4>
-              <button onClick={handleIncrease}> + </button>
+              <button onClick={() => handleQuantity("INC")}> + </button>
             </div>
           </label>
         </div>

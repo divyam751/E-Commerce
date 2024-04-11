@@ -63,7 +63,6 @@ const ProductDetails = () => {
   const REQUEST_URL = process.env.NEXT_PUBLIC_REQUEST_URL;
 
   const handleCart = async (item) => {
-    // dispatch(addToCart(item));
     if (item && !loading) {
       try {
         setLoading(true);
@@ -78,24 +77,16 @@ const ProductDetails = () => {
 
         if (response.ok) {
           const data = await response.json();
-          // console.log("Added to cart successful");
-          // console.log("response Data=>", data);
-          // dispatch(getCart(userData));
           dispatch(updateCart(data));
           setTimeout(() => {
             successNotify();
           }, 500);
-
-          // dispatch(setUserDetails(data));
         } else {
           console.error("Error:", response.statusText);
           router.push("/login");
-          // errorNotify();
         }
       } catch (error) {
         console.log(error);
-
-        // errorNotify();
       } finally {
         setTimeout(() => {
           setLoading(false);
@@ -105,19 +96,28 @@ const ProductDetails = () => {
   };
 
   // Session if page reload
-  const storedSelectedProduct = sessionStorage.getItem("selectedProduct");
-  const initialSelectedProduct = storedSelectedProduct
-    ? JSON.parse(storedSelectedProduct)
-    : null;
+  // const storedSelectedProduct = sessionStorage.getItem("selectedProduct");
+  // const initialSelectedProduct = storedSelectedProduct
+  //   ? JSON.parse(storedSelectedProduct)
+  //   : null;
 
+  // useEffect(() => {
+  //   if (initialSelectedProduct) {
+  //     dispatch(productQuery(initialSelectedProduct));
+  //   }
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
+
+  //
   useEffect(() => {
+    const storedSelectedProduct = sessionStorage.getItem("selectedProduct");
+    const initialSelectedProduct = storedSelectedProduct
+      ? JSON.parse(storedSelectedProduct)
+      : null;
     if (initialSelectedProduct) {
       dispatch(productQuery(initialSelectedProduct));
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  //
+  }, [dispatch]);
 
   useEffect(() => {
     if (wishlist.find((item) => selectedProduct?.id === item.id)) {

@@ -24,6 +24,18 @@ const Carousel = ({ arr }) => {
     };
   }, [posters.length]);
 
+  if (!arr || arr.length === 0) {
+    // Handle the case where posters array is empty or undefined
+    return null; // Render nothing or a placeholder
+  }
+
+  const src = arr[idx]; // Get the source for the current index
+
+  if (!src) {
+    // Handle the case where src is undefined
+    return null; // Render nothing or a placeholder
+  }
+
   return (
     <div
       className="carousel-container"
@@ -31,10 +43,12 @@ const Carousel = ({ arr }) => {
     >
       <Image
         className="carousel-images"
-        src={posters[idx]}
+        // src={posters[idx]}
+        src={src}
         alt="poster"
         width={600}
         height={300}
+        priority
       />
     </div>
   );

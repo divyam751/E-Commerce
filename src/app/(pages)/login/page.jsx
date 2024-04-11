@@ -57,8 +57,8 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log("Login successful");
-        console.log(data);
+        // console.log("Login successful");
+        // console.log(data);
         successNotify();
         dispatch(setUserDetails(data));
         setTimeout(() => {
@@ -76,7 +76,7 @@ const Login = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log(formData);
+    // console.log(formData);
     postFormData();
   };
   const handleChange = (e) => {

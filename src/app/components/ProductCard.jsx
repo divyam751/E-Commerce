@@ -31,6 +31,7 @@ const ProductCard = ({ item }) => {
           alt={item.brand}
           width={300}
           height={350}
+          priority
         />
 
         <div className="productCard-productRatingBox">

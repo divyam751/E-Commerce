@@ -79,7 +79,7 @@ const ProductDetails = () => {
         if (response.ok) {
           const data = await response.json();
           // console.log("Added to cart successful");
-          console.log("response Data=>", data);
+          // console.log("response Data=>", data);
           // dispatch(getCart(userData));
           dispatch(updateCart(data));
           setTimeout(() => {

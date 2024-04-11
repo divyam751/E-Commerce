@@ -76,8 +76,12 @@ const productSlice = createSlice({
       }
     },
     productQuery: (state, { payload }) => {
-      sessionStorage.setItem("selectedProduct", JSON.stringify({ ...payload }));
-
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem(
+          "selectedProduct",
+          JSON.stringify({ ...payload })
+        );
+      }
       state.selectedProduct = { ...payload };
     },
   },

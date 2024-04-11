@@ -73,7 +73,7 @@ const cartSlice = createSlice({
       }
     },
     loadLogout: (state) => {
-      state.cartData = [];
+      state.cartData = []; // is this correct way because after using this I am getting cartData as undefuniend in my component
       state.cartPrice = {
         totalMrp: 0,
         totalDiscount: 0,

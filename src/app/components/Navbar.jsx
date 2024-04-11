@@ -15,7 +15,7 @@ import { useRouter } from "next/navigation";
 import { searchQuery } from "@/lib/features/productSlice";
 import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import { logout, setUserDetails } from "@/lib/features/userSlice";
-import { getCart, loadLogout } from "@/lib/features/cartSlice";
+import { getCart, loadInitialCart, loadLogout } from "@/lib/features/cartSlice";
 import { Bounce, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import Tooltip from "./Tooltip";
@@ -31,6 +31,7 @@ const Navbar = () => {
   const { cartData } = useAppSelector((state) => state.carts);
 
   const { userName, userId } = userData;
+  const cartItemCount = cartData ? cartData.length : 0;
 
   const debounce = (func, delay) => {
     let timeout;
@@ -91,7 +92,6 @@ const Navbar = () => {
       router.push("/cart");
     } else {
       loginRoute();
-      // router.push("/cart");
     }
   };
   const handleLogout = () => {
@@ -179,7 +179,8 @@ const Navbar = () => {
               <div className="navbar-cartBox">
                 <FaShoppingCart />
                 <div className="navbar-cartBedge">
-                  {cartData?.length !== 0 ? cartData?.length : 0}
+                  {cartItemCount}
+                  {/* {cartData?.length !== 0 ? cartData?.length : 0} */}
                 </div>
               </div>
             </Tooltip>

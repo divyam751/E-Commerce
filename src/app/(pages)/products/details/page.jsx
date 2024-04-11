@@ -97,7 +97,9 @@ const ProductDetails = () => {
 
         // errorNotify();
       } finally {
-        setLoading(false);
+        setTimeout(() => {
+          setLoading(false);
+        }, 3000);
       }
     }
   };
@@ -205,6 +207,7 @@ const ProductDetails = () => {
           <button
             className="productDetails-addToCartBtn"
             onClick={() => handleCart(selectedProduct)}
+            disabled={loading}
           >
             <FaShoppingCart size={20} />
             Add To Cart

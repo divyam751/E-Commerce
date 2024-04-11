@@ -5,7 +5,7 @@ import { useAppDispatch, useAppSelector } from "@/lib/hooks";
 import Image from "next/image";
 import emptyCart from "../../../../public/asset/empty-cart.svg";
 import { useEffect } from "react";
-import { getCart } from "@/lib/features/cartSlice";
+import { getCart, loadLogout } from "@/lib/features/cartSlice";
 
 const Cart = () => {
   const { cartData, cartPrice } = useAppSelector((state) => state.carts);

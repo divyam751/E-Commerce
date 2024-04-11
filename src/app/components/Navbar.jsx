@@ -91,12 +91,13 @@ const Navbar = () => {
       router.push("/cart");
     } else {
       loginRoute();
+      // router.push("/cart");
     }
   };
   const handleLogout = () => {
     sessionStorage.clear();
-    dispatch(logout());
     dispatch(loadLogout());
+    dispatch(logout());
     router.push("/home");
   };
 

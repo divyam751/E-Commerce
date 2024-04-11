@@ -43,7 +43,6 @@ const calculateCartPrice = (cartData) => {
 const cartSlice = createSlice({
   name: "products",
   initialState: {
-    cartData: [],
     cartPrice: {
       totalMrp: 0,
       totalDiscount: 0,
@@ -52,6 +51,7 @@ const cartSlice = createSlice({
       shipingFee: 0,
       totalAmount: 0,
     },
+    cartData: [],
     wishlist: [],
     cartLoading: false,
   },
